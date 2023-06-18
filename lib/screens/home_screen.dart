@@ -15,6 +15,8 @@ class _HomeScreenState extends State<HomeScreen> {
     controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(const Color(0x00000000))
+      ..setUserAgent(
+          "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.4) Gecko/20100101 Firefox/4.0")
       ..setNavigationDelegate(
         NavigationDelegate(
           onProgress: (int progress) {
@@ -24,9 +26,9 @@ class _HomeScreenState extends State<HomeScreen> {
           onPageFinished: (String url) {},
           onWebResourceError: (WebResourceError error) {},
           onNavigationRequest: (NavigationRequest request) {
-            if (request.url.startsWith('https://www.youtube.com/')) {
-              return NavigationDecision.prevent;
-            }
+            // if (request.url.startsWith('https://www.youtube.com/')) {
+            //   return NavigationDecision.prevent;
+            // }
             return NavigationDecision.navigate;
           },
         ),
@@ -44,9 +46,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SizedBox.fromSize(
-        size: MediaQuery.of(context).size,
-        child: WebViewWidget(controller: controller),
+      body: SafeArea(
+        child: SizedBox.fromSize(
+          size: MediaQuery.of(context).size,
+          child: WebViewWidget(controller: controller),
+        ),
       ),
     );
   }
